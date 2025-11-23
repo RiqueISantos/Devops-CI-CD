@@ -5,6 +5,7 @@ on:
     workflows: ["Pipeline 1 - Testes Unitários"]
     types:
       - completed
+  workflow_dispatch:   # <-- Permite rodar manualmente
 
 jobs:
   integration_tests:
@@ -26,5 +27,4 @@ jobs:
 
       - name: Run integration tests
         run: |
-          # Placeholder para testes de integração
           echo "Aqui você rodaria seus testes de integração"

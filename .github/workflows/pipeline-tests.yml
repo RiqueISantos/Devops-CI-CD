@@ -5,6 +5,7 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:    # <-- Permite rodar manualmente
 
 jobs:
   unit_tests:

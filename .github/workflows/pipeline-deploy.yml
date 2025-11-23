@@ -5,6 +5,7 @@ on:
     workflows: ["Pipeline 2 - Testes de Integração"]
     types:
       - completed
+  workflow_dispatch:   # <-- Permite rodar manualmente
 
 jobs:
   e2e_or_deploy:

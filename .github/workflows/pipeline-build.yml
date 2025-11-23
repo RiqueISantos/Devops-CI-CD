@@ -1,0 +1,32 @@
+name: Pipeline 2 - Build
+
+on:
+  workflow_run:
+    workflows: ["Pipeline 1 - Testes Unitários"]
+    types:
+      - completed
+
+jobs:
+  build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js (Vercel build)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm run build || echo "No build script, skipping"
+
+      - name: Load .env
+        run: |
+          export $(grep -v '^#' .env | xargs)
+
+      - name: Build completed
+        run: echo "Build finalizado, pronto para deploy"

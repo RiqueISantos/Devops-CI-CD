@@ -14,19 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js (Vercel build)
-        uses: actions/setup-node@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '18'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          npm install
-          npm run build || echo "No build script, skipping"
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Load .env
+      - name: Build / Prepare artifacts
         run: |
-          export $(grep -v '^#' .env | xargs)
-
-      - name: Build completed
-        run: echo "Build finalizado, pronto para deploy"
+          echo "Build finalizado - projeto Python não precisa de npm"

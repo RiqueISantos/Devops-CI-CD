@@ -3,8 +3,6 @@ name: CI/CD - Deploy to Vercel
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   test_and_deploy:
@@ -30,7 +28,7 @@ jobs:
     - name: Configurar Node.js e Vercel CLI
       uses: actions/setup-node@v3
       with:
-        node-version: "18"
+        node-version: "20"
 
     - name: Deploy para Vercel
       env:

@@ -10,39 +10,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run unit tests
-        run: |
-          # se você tiver test_app.py na raiz
-          python -m unittest discover -s . -p "test_*.py"
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s . -p "test_*.py"
 
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Build / Prepare artifacts
-        run: echo "Build finalizado"
+      - run: pip install -r requirements.txt
+      - run: echo "Build finalizado"
 
   deploy:
     needs: build
@@ -51,14 +35,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Deploy to Vercel
-        run: vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID
+      - uses: actions/checkout@v3
+      - run: pip install -r requirements.txt
+      - run: npm install -g vercel
+      - run: vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID

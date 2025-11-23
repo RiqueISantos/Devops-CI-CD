@@ -1,23 +1,29 @@
-name: Pipeline - Build
+name: Pipeline 2 - Testes de Integração
 
 on:
   workflow_run:
-    workflows: ["Pipeline - Tests"]
+    workflows: ["Pipeline 1 - Testes Unitários"]
     types:
       - completed
 
 jobs:
-  build:
+  integration_tests:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout código
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Configurar Docker
-      uses: docker/setup-buildx-action@v2
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Build da imagem
-      run: |
-        docker build -t my-api:latest .
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flask flask-swagger-ui flask-jwt-extended requests
+
+      - name: Run integration tests
+        run: |
+          echo "No integration tests yet, placeholder"

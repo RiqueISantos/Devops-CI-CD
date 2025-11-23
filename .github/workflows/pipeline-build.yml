@@ -20,13 +20,10 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Build / Prepare artifacts
-        run: echo "Build finalizado"
-
-      - name: Call Deploy workflow
-        uses: ./.github/workflows/pipeline3.yml
-        with:
-          vercel_token: ${{ secrets.VERCEL_TOKEN }}
-          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "Build finalizado - projeto Python não precisa de npm"

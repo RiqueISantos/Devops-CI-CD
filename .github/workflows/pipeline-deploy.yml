@@ -1,20 +1,18 @@
 name: Pipeline 3 - Deploy
 
 on:
-  workflow_run:
-    workflows: ["Pipeline 2 - Build"]
-    types:
-      - completed
+  workflow_call:
+    inputs:
+      vercel_token:
+        required: true
+        type: string
+      vercel_project_id:
+        required: true
+        type: string
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,4 +24,4 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID
+        run: vercel --prod --token ${{ inputs.vercel_token }} --confirm --project ${{ inputs.vercel_project_id }}

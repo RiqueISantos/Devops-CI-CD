@@ -1,17 +1,14 @@
 name: Pipeline 2 - Build
 
-# Antes estava manual, agora vai rodar automaticamente
 on:
-  push:
-    branches:
-      - main
-  # opcional: também rodar em pull requests
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Pipeline 1 - Testes Unitários"]
+    types:
+      - completed
 
 jobs:
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,3 +24,9 @@ jobs:
 
       - name: Build / Prepare artifacts
         run: echo "Build finalizado"
+
+      - name: Chamar Deploy
+        uses: ./.github/workflows/pipeline3.yml
+        with:
+          vercel_token: ${{ secrets.VERCEL_TOKEN }}
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}

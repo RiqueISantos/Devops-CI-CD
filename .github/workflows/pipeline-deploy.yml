@@ -25,11 +25,5 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
 
-      - name: Debug vars (remova depois)
-        run: |
-          echo "TOKEN está vazio? => ${#VERCEL_TOKEN}"
-          echo "PROJECTID está vazio? => ${#VERCEL_PROJECT_ID}"
-
       - name: Deploy to Vercel
-        run: |
-          vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID
+        run: vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID

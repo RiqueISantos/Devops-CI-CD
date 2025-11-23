@@ -1,4 +1,4 @@
-name: Pipeline 3 - Deploy / Testes Finais
+name: Pipeline 3 - E2E / Deploy
 
 on:
   workflow_run:
@@ -24,6 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install flask flask-swagger-ui flask-jwt-extended requests
 
-      - name: Deploy / E2E Tests
+      - name: Run E2E / Deploy
         run: |
-          echo "Aqui você pode rodar testes E2E ou deploy"
+          echo "Aqui você rodaria testes E2E ou deploy"

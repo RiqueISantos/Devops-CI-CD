@@ -26,4 +26,5 @@ jobs:
 
       - name: Run integration tests
         run: |
-          echo "No integration tests yet, placeholder"
+          # Placeholder para testes de integração
+          echo "Aqui você rodaria seus testes de integração"

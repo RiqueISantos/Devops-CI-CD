@@ -2,7 +2,7 @@ name: Pipeline 3 - Deploy
 
 on:
   workflow_run:
-    workflows: ["Pipeline 2 - Testes de Integração"]
+    workflows: ["Pipeline 2 - Build"]
     types:
       - completed
 
@@ -14,13 +14,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
       - name: Install Vercel CLI
         run: npm install -g vercel
 
-      - name: Load .env
-        run: |
-          export $(grep -v '^#' .env | xargs)
-
       - name: Deploy to Vercel
-        run: |
-          vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel --prod --token $VERCEL_TOKEN --confirm --project $VERCEL_PROJECT_ID
